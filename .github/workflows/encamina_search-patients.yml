@@ -16,7 +16,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.0
 
+      - name: Build FrontEnd
+        run: |
+          cd ./frontend
+          npm install
+          npm run build
+          cd ..
+          
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
