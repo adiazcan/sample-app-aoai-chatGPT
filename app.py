@@ -158,12 +158,13 @@ def prepare_body_headers_with_data(request):
     # Set filter
     filter = None
     userToken = None
-    filter = "idPaciente eq '" + patient + "'"
+    #if patient different from * 
+    if patient != "*":
+        filter = "idPaciente eq '" + patient + "'"
     
     if AZURE_SEARCH_PERMITTED_GROUPS_COLUMN:
-        filter = filter + " and "
         userToken = request.headers.get('X-MS-TOKEN-AAD-ACCESS-TOKEN', "")
-        filter = generateFilterString(userToken)
+        filter = filter +" and " + generateFilterString(userToken)
 
     body = {
         "messages": request_messages,
