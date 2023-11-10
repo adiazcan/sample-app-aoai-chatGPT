@@ -10,6 +10,7 @@ import { isEmpty } from "lodash-es";
 
 import styles from "./Chat.module.css";
 import Azure from "../../assets/Azure.svg";
+import Encamina from "../../assets/encamina.svg"
 
 import {
     ChatMessage,
@@ -574,7 +575,7 @@ const Chat = () => {
                         {!messages || messages.length < 1 ? (
                             <Stack className={styles.chatEmptyState}>
                                 <img
-                                    src={Azure}
+                                    src={Encamina} 
                                     className={styles.chatIcon}
                                     aria-hidden="true"
                                 />
@@ -702,7 +703,7 @@ const Chat = () => {
                     {messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
                     <Stack.Item className={styles.citationPanel} tabIndex={0} role="tabpanel" aria-label="Citations Panel">
                         <Stack aria-label="Citations Panel Header Container" horizontal className={styles.citationPanelHeaderContainer} horizontalAlign="space-between" verticalAlign="center">
-                            <span aria-label="Citations" className={styles.citationPanelHeader}>Citations</span>
+                            <span aria-label="Citations" className={styles.citationPanelHeader}>Clinical notes</span>
                             <IconButton iconProps={{ iconName: 'Cancel'}} aria-label="Close citations panel" onClick={() => setIsCitationPanelOpen(false)}/>
                         </Stack>
                         <h5 className={styles.citationPanelTitle} tabIndex={0} title={activeCitation.url && !activeCitation.url.includes("blob.core") ? activeCitation.url : activeCitation.title ?? ""} onClick={() => onViewSource(activeCitation)}>{activeCitation.title}</h5>
