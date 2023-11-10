@@ -162,7 +162,6 @@ const Chat = () => {
         
         const request: ConversationRequest = {
             messages: [...conversation.messages.filter((answer) => answer.role !== ERROR)],
-            patient: patient
         };
 
         let result = {} as ChatResponse;
@@ -260,13 +259,11 @@ const Chat = () => {
                 conversation.messages.push(userMessage);
                 request = {
                     messages: [...conversation.messages.filter((answer) => answer.role !== ERROR)],
-                    patient: patient
                 };
             }
         }else{
             request = {
                 messages: [userMessage].filter((answer) => answer.role !== ERROR),
-                patient: patient
             };
             setMessages(request.messages)
         }
