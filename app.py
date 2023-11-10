@@ -146,6 +146,7 @@ def generateFilterString(userToken):
 
 def prepare_body_headers_with_data(request):
     request_messages = request.json["messages"]
+    patient = request.json["patient"]
 
     # Set query type
     query_type = "simple"
@@ -157,7 +158,10 @@ def prepare_body_headers_with_data(request):
     # Set filter
     filter = None
     userToken = None
+    filter = "idPaciente eq '" + patient + "'"
+    
     if AZURE_SEARCH_PERMITTED_GROUPS_COLUMN:
+        filter = filter + " and "
         userToken = request.headers.get('X-MS-TOKEN-AAD-ACCESS-TOKEN', "")
         filter = generateFilterString(userToken)
 
