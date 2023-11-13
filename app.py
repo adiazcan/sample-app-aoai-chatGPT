@@ -146,7 +146,7 @@ def generateFilterString(userToken):
 
 def prepare_body_headers_with_data(request):
     request_messages = request.json["messages"]
-    patient = request.json["patient"]
+    #patient = request.json["patient"]
 
     # Set query type
     query_type = "simple"
