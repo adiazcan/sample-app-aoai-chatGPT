@@ -10,20 +10,25 @@ import NoPage from "./pages/NoPage";
 import Chat from "./pages/chat/Chat";
 import { AppStateProvider } from "./state/AppProvider";
 
+import { Provider } from "react-redux";
+import { store } from "./store";
+
 initializeIcons();
 
 export default function App() {
     return (
-        <AppStateProvider>
-            <HashRouter>
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<Chat />} />
-                        <Route path="*" element={<NoPage />} />
-                    </Route>
-                </Routes>
-            </HashRouter>
-        </AppStateProvider>
+        <Provider store={store}>
+            <AppStateProvider>
+                <HashRouter>
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
+                            <Route index element={<Chat />} />
+                            <Route path="*" element={<NoPage />} />
+                        </Route>
+                    </Routes>
+                </HashRouter>
+            </AppStateProvider>
+        </Provider>
     );
 }
 

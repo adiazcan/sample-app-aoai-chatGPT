@@ -34,6 +34,8 @@ import { ChatHistoryPanel } from "../../components/ChatHistory/ChatHistoryPanel"
 import { AppStateContext } from "../../state/AppProvider";
 import { useBoolean } from "@fluentui/react-hooks";
 
+import { useAppSelector } from "../../store/hooks";
+
 const enum messageStatus {
     NotRunning = "Not Running",
     Processing = "Processing",
@@ -54,6 +56,8 @@ const Chat = () => {
     const [clearingChat, setClearingChat] = useState<boolean>(false);
     const [hideErrorDialog, { toggle: toggleErrorDialog }] = useBoolean(true);
     const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>()
+
+    const { patientStore } = useAppSelector((store) => store);
 
     const errorDialogContentProps = {
         type: DialogType.close,
@@ -81,6 +85,10 @@ const Chat = () => {
             toggleErrorDialog();
         }
     }, [appStateContext?.state.isCosmosDBAvailable]);
+
+    useEffect(() => {
+        newChat();
+      }, [patientStore.patientId])
 
     const handleErrorDialogClose = () => {
         toggleErrorDialog()
@@ -162,7 +170,7 @@ const Chat = () => {
         
         const request: ConversationRequest = {
             messages: [...conversation.messages.filter((answer) => answer.role !== ERROR)],
-            patient_id: "*"
+            patient_id: patientStore.patientId//"*"
         };
 
         let result = {} as ChatResponse;
@@ -580,7 +588,12 @@ const Chat = () => {
                                     aria-hidden="true"
                                 />
                                 <h1 className={styles.chatEmptyStateTitle}>Start chatting</h1>
-                                <h2 className={styles.chatEmptyStateSubtitle}>This chatbot is configured to answer your questions</h2>
+                                {patientStore.patientId === "*" ? (
+                                    <h2 className={styles.chatEmptyStateSubtitle}>This chatbot is configured to answer your questions</h2>
+                                ) : (
+                                    <h2 className={styles.chatEmptyStateSubtitle}>This chatbot is configured to answer your questions about selected patient</h2>
+                                )
+                                }                                
                             </Stack>
                         ) : (
                             <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? "40px" : "0px"}} role="log">

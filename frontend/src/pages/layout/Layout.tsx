@@ -9,6 +9,9 @@ import { HistoryButton, ShareButton } from "../../components/common/Button";
 import { AppStateContext } from "../../state/AppProvider";
 import { CosmosDBStatus } from "../../api";
 
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { setPatientId } from "../../store/slices/patient";
+
 const shareButtonStyles: ICommandBarStyles & IButtonStyles = {
     root: {
       width: 86,
@@ -39,8 +42,10 @@ const Layout = () => {
     const [copyClicked, setCopyClicked] = useState<boolean>(false);
     const [copyText, setCopyText] = useState<string>("Copy URL");
     const appStateContext = useContext(AppStateContext)
+    
     const [selectedPatient, setSelectedPatient] = useState<string>("*");
-
+    const dispatch = useAppDispatch();
+    
     const handleShareClick = () => {
         setIsSharePanelOpen(true);
     };
@@ -62,6 +67,7 @@ const Layout = () => {
 
     const handlePatientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedPatient(event.target.value);
+        dispatch(setPatientId(event.target.value));
     } 
 
     useEffect(() => {
@@ -87,7 +93,7 @@ const Layout = () => {
                         <Link to="/" className={styles.headerTitleContainer}>
                             <h1 className={styles.headerTitle}>ENCAMINA Healthcare | Azure AI</h1>
                         </Link>
-                        <select className='patientCombo' value={selectedPatient} onChange={handlePatientChange}>
+                        <select className={styles.patientCombo} value={selectedPatient} onChange={handlePatientChange}>
                             <option value="*">All patients</option>
                             <option value="56465A53536D56724E555657564570505A57316A4D5652565258684E524556335457706E50513D3D">Diego Diaz Porras</option>
                             <option value="56465A53536D56724E555657564570505A57316A4D5652565258684F616C6C355430525650513D3D">Santiago Zapico Martin</option>
