@@ -39,6 +39,7 @@ const Layout = () => {
     const [copyClicked, setCopyClicked] = useState<boolean>(false);
     const [copyText, setCopyText] = useState<string>("Copy URL");
     const appStateContext = useContext(AppStateContext)
+    const [selectedPatient, setSelectedPatient] = useState<string>("*");
 
     const handleShareClick = () => {
         setIsSharePanelOpen(true);
@@ -58,6 +59,10 @@ const Layout = () => {
     const handleHistoryClick = () => {
         appStateContext?.dispatch({ type: 'TOGGLE_CHAT_HISTORY' })
     };
+
+    const handlePatientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedPatient(event.target.value);
+    } 
 
     useEffect(() => {
         if (copyClicked) {
@@ -82,6 +87,13 @@ const Layout = () => {
                         <Link to="/" className={styles.headerTitleContainer}>
                             <h1 className={styles.headerTitle}>ENCAMINA Healthcare | Azure AI</h1>
                         </Link>
+                        <select className='patientCombo' value={selectedPatient} onChange={handlePatientChange}>
+                            <option value="*">All patients</option>
+                            <option value="56465A53536D56724E555657564570505A57316A4D5652565258684E524556335457706E50513D3D">Diego Diaz Porras</option>
+                            <option value="56465A53536D56724E555657564570505A57316A4D5652565258684F616C6C355430525650513D3D">Santiago Zapico Martin</option>
+                            <option value="56465A53536D56724E555657564570505A57316A4D56525652544E4E616C45795455453950513D3D">Alberto Porras</option>
+                            <option value="56465A53536D56724E555657564570505A57316A4D5652565258684F52456C335431524650513D3D">Maria Vidal</option>
+                        </select> 
                     </Stack>
                     <Stack horizontal tokens={{ childrenGap: 4 }}>
                             {(appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) && 
@@ -89,7 +101,6 @@ const Layout = () => {
                             }
                             <ShareButton onClick={handleShareClick} />
                     </Stack>
-
                 </Stack>
             </header>
             <Outlet />

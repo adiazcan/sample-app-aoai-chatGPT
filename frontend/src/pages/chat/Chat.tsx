@@ -162,6 +162,7 @@ const Chat = () => {
         
         const request: ConversationRequest = {
             messages: [...conversation.messages.filter((answer) => answer.role !== ERROR)],
+            patient_id: "*"
         };
 
         let result = {} as ChatResponse;
@@ -259,11 +260,13 @@ const Chat = () => {
                 conversation.messages.push(userMessage);
                 request = {
                     messages: [...conversation.messages.filter((answer) => answer.role !== ERROR)],
+                    patient_id: ""
                 };
             }
         }else{
             request = {
                 messages: [userMessage].filter((answer) => answer.role !== ERROR),
+                patient_id: ""
             };
             setMessages(request.messages)
         }
